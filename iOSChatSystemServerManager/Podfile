@@ -1,26 +1,26 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'iOSChatSystemClient' do
+target 'iOSChatSystemServerManager' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for iOSChatSystemClient
-  
-  pod "GCDWebServer", "~> 3.0"
-  pod "RealmSwift"
-  pod 'SwiftyJSON'
-  pod 'RxSwift',    '~> 4.0'
-  pod 'RxCocoa',    '~> 4.0'
-  pod 'Alamofire'
-  
-  
-  target 'iOSChatSystemClientTests' do
+  # Pods for iOSChatSystemServerManager
+
+
+pod "GCDWebServer", "~> 3.0"
+pod "RealmSwift"
+pod 'SwiftyJSON'
+pod 'RxSwift',    '~> 4.0'
+pod 'RxCocoa',    '~> 4.0'
+pod 'Alamofire'
+
+  target 'iOSChatSystemServerManagerTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
-  target 'iOSChatSystemClientUITests' do
+  target 'iOSChatSystemServerManagerUITests' do
     inherit! :search_paths
     # Pods for testing
   end

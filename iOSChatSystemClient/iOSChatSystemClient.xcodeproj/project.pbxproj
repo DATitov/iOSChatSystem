@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287F10DF204AF830007044A3 /* RemoteServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287F10DD204AF830007044A3 /* RemoteServerInteractor.swift */; };
+		287F10E0204AF830007044A3 /* LocalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287F10DE204AF830007044A3 /* LocalServer.swift */; };
 		28AD4D02204AE49200EA0827 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D01204AE49200EA0827 /* AppDelegate.swift */; };
 		28AD4D04204AE49200EA0827 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D03204AE49200EA0827 /* ViewController.swift */; };
 		28AD4D07204AE49200EA0827 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28AD4D05204AE49200EA0827 /* Main.storyboard */; };
@@ -14,6 +16,12 @@
 		28AD4D0C204AE49200EA0827 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28AD4D0A204AE49200EA0827 /* LaunchScreen.storyboard */; };
 		28AD4D17204AE49200EA0827 /* iOSChatSystemClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D16204AE49200EA0827 /* iOSChatSystemClientTests.swift */; };
 		28AD4D22204AE49200EA0827 /* iOSChatSystemClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D21204AE49200EA0827 /* iOSChatSystemClientUITests.swift */; };
+		28AD4D31204AE75000EA0827 /* UsersListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D30204AE75000EA0827 /* UsersListVC.swift */; };
+		28AD4D33204AE78B00EA0827 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D32204AE78B00EA0827 /* ProfileVC.swift */; };
+		28AD4D35204AE7DB00EA0827 /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D34204AE7DB00EA0827 /* SettingsTVC.swift */; };
+		28AD4D38204AE93E00EA0827 /* UsersListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D37204AE93E00EA0827 /* UsersListVM.swift */; };
+		28AD4D3B204AE99600EA0827 /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D3A204AE99600EA0827 /* SettingsVM.swift */; };
+		28AD4D40204AEC8200EA0827 /* LocalServerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AD4D3F204AEC8200EA0827 /* LocalServerInteractor.swift */; };
 		3BAB15EE906B5C95E36133D7 /* Pods_iOSChatSystemClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26723EDD79A2DACBB2AF9167 /* Pods_iOSChatSystemClient.framework */; };
 		63AEEE19370179CB46CC423E /* Pods_iOSChatSystemClientUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E62F407A5F66269DB6B8A52 /* Pods_iOSChatSystemClientUITests.framework */; };
 		F969722E2371899F22F02AF4 /* Pods_iOSChatSystemClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B62CEBDC16A3B08A4941302 /* Pods_iOSChatSystemClientTests.framework */; };
@@ -40,6 +48,8 @@
 		01A1FB499298EDD77838BFBD /* Pods-iOSChatSystemClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemClientTests/Pods-iOSChatSystemClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0AF5BAB06EBE36B38DF14E64 /* Pods-iOSChatSystemClientUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemClientUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemClientUITests/Pods-iOSChatSystemClientUITests.release.xcconfig"; sourceTree = "<group>"; };
 		26723EDD79A2DACBB2AF9167 /* Pods_iOSChatSystemClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSChatSystemClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		287F10DD204AF830007044A3 /* RemoteServerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteServerInteractor.swift; path = ../../../Common/RemoteServerInteractor.swift; sourceTree = "<group>"; };
+		287F10DE204AF830007044A3 /* LocalServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalServer.swift; path = ../../../Common/LocalServer.swift; sourceTree = "<group>"; };
 		28AD4CFE204AE49200EA0827 /* iOSChatSystemClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSChatSystemClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28AD4D01204AE49200EA0827 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28AD4D03204AE49200EA0827 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +63,12 @@
 		28AD4D1D204AE49200EA0827 /* iOSChatSystemClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSChatSystemClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28AD4D21204AE49200EA0827 /* iOSChatSystemClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSChatSystemClientUITests.swift; sourceTree = "<group>"; };
 		28AD4D23204AE49200EA0827 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28AD4D30204AE75000EA0827 /* UsersListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListVC.swift; sourceTree = "<group>"; };
+		28AD4D32204AE78B00EA0827 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		28AD4D34204AE7DB00EA0827 /* SettingsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
+		28AD4D37204AE93E00EA0827 /* UsersListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersListVM.swift; sourceTree = "<group>"; };
+		28AD4D3A204AE99600EA0827 /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
+		28AD4D3F204AEC8200EA0827 /* LocalServerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalServerInteractor.swift; sourceTree = "<group>"; };
 		3B62CEBDC16A3B08A4941302 /* Pods_iOSChatSystemClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSChatSystemClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4450026BB76CAC3E52EEAA66 /* Pods-iOSChatSystemClientUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemClientUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemClientUITests/Pods-iOSChatSystemClientUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8691AB2EABE4AD612F65864C /* Pods-iOSChatSystemClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemClient/Pods-iOSChatSystemClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +140,8 @@
 		28AD4D00204AE49200EA0827 /* iOSChatSystemClient */ = {
 			isa = PBXGroup;
 			children = (
+				28AD4D3C204AE9A000EA0827 /* Interactors */,
+				28AD4D2F204AE73000EA0827 /* UI */,
 				28AD4D01204AE49200EA0827 /* AppDelegate.swift */,
 				28AD4D03204AE49200EA0827 /* ViewController.swift */,
 				28AD4D05204AE49200EA0827 /* Main.storyboard */,
@@ -150,6 +168,44 @@
 				28AD4D23204AE49200EA0827 /* Info.plist */,
 			);
 			path = iOSChatSystemClientUITests;
+			sourceTree = "<group>";
+		};
+		28AD4D2F204AE73000EA0827 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				28AD4D39204AE98900EA0827 /* Settings */,
+				28AD4D36204AE93000EA0827 /* UsersList */,
+				28AD4D32204AE78B00EA0827 /* ProfileVC.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		28AD4D36204AE93000EA0827 /* UsersList */ = {
+			isa = PBXGroup;
+			children = (
+				28AD4D30204AE75000EA0827 /* UsersListVC.swift */,
+				28AD4D37204AE93E00EA0827 /* UsersListVM.swift */,
+			);
+			path = UsersList;
+			sourceTree = "<group>";
+		};
+		28AD4D39204AE98900EA0827 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				28AD4D34204AE7DB00EA0827 /* SettingsTVC.swift */,
+				28AD4D3A204AE99600EA0827 /* SettingsVM.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		28AD4D3C204AE9A000EA0827 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				287F10DE204AF830007044A3 /* LocalServer.swift */,
+				287F10DD204AF830007044A3 /* RemoteServerInteractor.swift */,
+				28AD4D3F204AEC8200EA0827 /* LocalServerInteractor.swift */,
+			);
+			path = Interactors;
 			sourceTree = "<group>";
 		};
 		8C27C4C721CC0D793F150BAD /* Pods */ = {
@@ -440,6 +496,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOSChatSystemClient/Pods-iOSChatSystemClient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -449,6 +506,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GCDWebServer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
@@ -468,8 +526,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				287F10E0204AF830007044A3 /* LocalServer.swift in Sources */,
+				28AD4D33204AE78B00EA0827 /* ProfileVC.swift in Sources */,
+				28AD4D38204AE93E00EA0827 /* UsersListVM.swift in Sources */,
 				28AD4D04204AE49200EA0827 /* ViewController.swift in Sources */,
+				28AD4D31204AE75000EA0827 /* UsersListVC.swift in Sources */,
+				28AD4D3B204AE99600EA0827 /* SettingsVM.swift in Sources */,
+				287F10DF204AF830007044A3 /* RemoteServerInteractor.swift in Sources */,
+				28AD4D35204AE7DB00EA0827 /* SettingsTVC.swift in Sources */,
 				28AD4D02204AE49200EA0827 /* AppDelegate.swift in Sources */,
+				28AD4D40204AEC8200EA0827 /* LocalServerInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
