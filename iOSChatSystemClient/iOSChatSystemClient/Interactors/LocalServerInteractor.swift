@@ -11,31 +11,37 @@ import SwiftyJSON
 
 class LocalServerInteractor: NSObject {
     
-    enum Method: String {
-        case Connect = "Connect"
-        case Unknown = "Unknown"
-    }
-    
     static let shared: LocalServerInteractor = {
         let instance = LocalServerInteractor()
         return instance
     }()
     
     func execute(method: String, params: JSON, completion: ((String) -> ())) {
-        execute(method: Method(rawValue: method) ?? Method.Unknown, params: params, completion: completion)
+        execute(method: ClientsMethod(rawValue: method) ?? ClientsMethod.Unknown, params: params, completion: completion)
     }
     
-    private func execute(method: Method, params: JSON, completion: ((String) -> ())) {
+    private func execute(method: ClientsMethod, params: JSON, completion: ((String) -> ())) {
         let text = { () -> String in
             switch method {
-            case .Connect:
-                return ""
             case .Unknown:
                 return ""
+            case .ReceiveMessage:
+                return ""
+            case .SocketReceiveRooms:
+                return receiveRooms(params: params)
+            case .Ping:
+                return "{\"message\":\"pong\"}"
             }
         }()
         
         completion(text)
+    }
+    
+    func receiveRooms(params: JSON) -> String {
+        
+        let rooms = params["rooms"].arrayValue
+        
+        return ""
     }
 
 }

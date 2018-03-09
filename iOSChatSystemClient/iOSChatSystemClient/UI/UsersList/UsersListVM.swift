@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 class UsersListVM: NSObject {
-
+    
     override init() {
         super.init()
         

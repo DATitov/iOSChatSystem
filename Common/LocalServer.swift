@@ -9,6 +9,7 @@
 import Foundation
 import GCDWebServer
 import SwiftyJSON
+import RxSwift
 
 class LocalServer: NSObject {
     
@@ -17,22 +18,36 @@ class LocalServer: NSObject {
         return instance
     }()
     
+    fileprivate var afeterServerLaunchedQuery = [() -> ()]()
+    
+    let serverURLString = Variable<String>("")
+    
     private let server = GCDWebServer()
+    
+    var serverStarted = false
     
     override init() {
         super.init()
         
+        server.delegate = self
+        
         initHandlers()
         
+        start()
+    }
+    
+    func start() {
         server.start()
     }
     
     func initHandlers() {
-        server.addDefaultHandler(forMethod: "GET", request: GCDWebServerDataRequest.self) { (request, completion) in
+        server.addHandler(match: { (requestMethod, requestURL, requestHeaders, urlPath, urlQuery) -> GCDWebServerRequest? in
+            return GCDWebServerDataRequest(method: requestMethod, url: requestURL, headers: requestHeaders, path: urlPath, query: urlQuery)
+        }) { (request, completion) in
             guard let dataRequest = request as? GCDWebServerDataRequest else {
-                return completion(GCDWebServerResponse(statusCode: 404))
+                return completion(GCDWebServerErrorResponse(statusCode: 404))
             }
-            let params = self.params(fromQuery: dataRequest.query)
+            let params = self.params(data: dataRequest.data) ?? [String: Any]()
             let method = params["method"] as? String ?? ""
             let json = JSON(data: dataRequest.data)
             LocalServerInteractor.shared.execute(method: method, params: json, completion: { text in
@@ -40,17 +55,13 @@ class LocalServer: NSObject {
                 completion(response)
             })
         }
-        server.addDefaultHandler(forMethod: "POST", request: GCDWebServerDataRequest.self) { (request, completion) in
-            guard let dataRequest = request as? GCDWebServerDataRequest else {
-                return completion(GCDWebServerResponse(statusCode: 404))
-            }
-            let params = self.params(fromQuery: dataRequest.query)
-            let method = params["method"] as? String ?? ""
-            let json = JSON(data: dataRequest.data)
-            LocalServerInteractor.shared.execute(method: method, params: json, completion: { text in
-                let response = GCDWebServerDataResponse(text: text)
-                completion(response)
-            })
+    }
+    
+    func params(data: Data) -> [String: Any]? {
+        do {
+            return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        } catch{
+            return nil
         }
     }
     
@@ -75,16 +86,35 @@ class LocalServer: NSObject {
         return params
     }
     
+    func executeOnServerLaunched(action: @escaping () -> ()) {
+        if serverStarted {
+            action()
+        }else{
+            afeterServerLaunchedQuery.append(action)
+        }
+    }
+    
 }
 
 extension LocalServer: GCDWebServerDelegate {
     
     func webServerDidStart(_ server: GCDWebServer) {
-        
+        serverStarted = true
+        if let url = server.serverURL {
+            serverURLString.value = url.absoluteString
+        }
+        for action in afeterServerLaunchedQuery {
+            action()
+        }
     }
     
     func webServerDidConnect(_ server: GCDWebServer) {
         
     }
+    
+    func webServerDidDisconnect(_ server: GCDWebServer) {
+        
+    }
+    
     
 }

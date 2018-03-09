@@ -13,6 +13,8 @@ target 'iOSChatSystemClient' do
   pod 'RxSwift',    '~> 4.0'
   pod 'RxCocoa',    '~> 4.0'
   pod 'Alamofire'
+  pod 'DTAlertViewContainer'
+  pod 'DateToolsSwift'
   
   
   target 'iOSChatSystemClientTests' do

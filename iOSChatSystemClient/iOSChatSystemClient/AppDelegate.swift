@@ -16,6 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        _ = LocalServer.shared
+        
+        LocalServer.shared.executeOnServerLaunched {
+            ServerManagerInteractor.shared.connect(urlString: ServerManagerInteractor.shared.serverManagerURLString.value) { succeed in
+                if succeed {
+                    ServerManagerInteractor.shared.requestServerURL(comletion: { (urlString) in
+                        print("")
+                        ServerInteractor.shared.loadRooms()
+                    })
+                    
+                }
+            }
+            
+        }
+        
+        
         return true
     }
 

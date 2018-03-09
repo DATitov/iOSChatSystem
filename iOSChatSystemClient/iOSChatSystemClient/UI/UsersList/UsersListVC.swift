@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 
 class UsersListVC: UIViewController {
+    
+    let users = Variable<[User]>([User]())
 
     let vm = UsersListVM()
     
