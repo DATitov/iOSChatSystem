@@ -32,6 +32,7 @@ class UsersListVC: UIViewController {
     func initBindings() {
         
         UsersManager.shared.users.asObservable()
+            .map({ $0.filter({ $0.id != LocalServer.shared.serverURLString.value }) })
             .bind(to: self.users)
             .disposed(by: self.disposeBag)
 
@@ -70,7 +71,10 @@ extension UsersListVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "user_cell")!
         
         if indexPath.row < users.value.count {
-            cell.textLabel?.text = users.value[indexPath.row].id
+            let user = users.value[indexPath.row]
+            cell.textLabel?.text = user.name.count > 0
+                ? user.name
+                : user.id
         }
         
         return cell

@@ -32,17 +32,18 @@ class RoomsManager: NSObject {
     }
     
     func updateRooms() {
+        let params = ["method": ServerMethod.Socket.LoadRooms.rawValue,
+                      "sender": LocalServer.shared.serverURLString.value,
+                      "user_id": LocalServer.shared.serverURLString.value]
+        
         SocketManager.shared.write(urlString: ServerInteractor.shared.serverURLString.value,
-                                   params: ["method": ServerMethod.Socket.LoadRooms.rawValue,
-                                            "sender": LocalServer.shared.serverURLString.value,
-                                            "user_id": UsersManager.shared.currentUser?.id ?? LocalServer.shared.serverURLString.value],
+                                   params: params,
                                    completion: { json in
                                     guard let json = json else {
                                         return
                                     }
                                     
                                     self.joinRawRooms(rawRooms: json["rooms"].arrayValue)
-                                    print("")
         })
     }
     

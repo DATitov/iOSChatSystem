@@ -18,7 +18,8 @@ class Room: Object, Mappable {
     @objc dynamic var name = ""
     @objc dynamic var unreadMessagesCount = 0
     
-    let usersIDs = List<String>()
+    @objc dynamic var user1ID = ""
+    @objc dynamic var user2ID = ""
     
     required init(realm: RLMRealm, schema: RLMObjectSchema) {
         super.init(realm: realm, schema: schema)
@@ -41,12 +42,16 @@ class Room: Object, Mappable {
         
         id = json["id"].stringValue
         name = json["name"].stringValue
+        user1ID = json["user1ID"].stringValue
+        user2ID = json["user2ID"].stringValue
         unreadMessagesCount = json["unreadMessagesCount"].int ?? 0
     }
     
     func mapping(map: Map) {
         id <- map["id"]
         name <- map["name"]
+        user1ID <- map["user1ID"]
+        user2ID <- map["user2ID"]
         unreadMessagesCount <- map["unreadMessagesCount"]
     }
     

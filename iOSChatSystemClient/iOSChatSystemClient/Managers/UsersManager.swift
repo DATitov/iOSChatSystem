@@ -49,9 +49,21 @@ class UsersManager: NSObject {
         }
     }
     
+    func getCurrentUser() -> User {
+        let realm = try! Realm()
+        guard let curUser = realm.objects(User.self).filter( {$0.id == LocalServer.shared.serverURLString.value} ).first else {
+            return User()
+        }
+        let newUser = User()
+        
+        newUser.id = curUser.id
+        newUser.name = curUser.name
+        
+        return newUser
+    }
+    
     
     func addUsers(users: [User]) {
-        
         let realm = try! Realm()
         try! realm.write {
             realm.add(users)
@@ -80,13 +92,18 @@ class UsersManager: NSObject {
     func updateUser(user: User) {
         RemoteServerInteractor.shared.executeRequest(urlString: ServerInteractor.shared.serverURLString.value,
                                                      params: ["method": ServerMethod.ReceiveMessage.rawValue,
-                                                              "user":
-                                                                [
-                                                                    "id": user.id,
-                                                                    "name": user.name
-                                                                    ] as [String: Any]
+                                                              "params": [
+                                                                "method": ServerMethod.Socket.UpdateUser.rawValue,
+                                                                "user":
+                                                                    [
+                                                                        "id": user.id,
+                                                                        "name": user.name
+                                                                        ] as [String: Any]
+                                                        ]
         ]) { (data, response, error) in
-            
+            if error == nil {
+                self.updateLocalUser(user: user)
+            }
         }
     }
     
@@ -111,8 +128,13 @@ class UsersManager: NSObject {
     
     func updateLocalUser(user: User) {
         let realm = try! Realm()
+        let storedUser = realm.objects(User.self).filter({ $0.id == LocalServer.shared.serverURLString.value }).first
         try! realm.write {
-            realm.add(user)
+            if let storedUser = storedUser {
+                storedUser.name = user.name
+            }else{
+                realm.add(user)
+            }
         }
         self.currentUser = user
     }
@@ -146,6 +168,19 @@ class UsersManager: NSObject {
             names.append(text)
         }
         self.usersNames.value = names
+    }
+    
+    func user(forID id: String) -> User? {
+        let realm = try! Realm()
+        let user = realm.objects(User.self).filter({ $0.id == id }).first
+        guard let u = user else {
+            return nil
+        }
+        
+        let newUser = User()
+        newUser.id = u.id
+        newUser.name = u.name
+        return newUser
     }
 
 }

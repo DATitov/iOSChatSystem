@@ -35,8 +35,6 @@ class LocalServerInteractor: NSObject {
                 return getUser(params: params)
             case .Unknown:
                 return ""
-            case .UpdateUser:
-                return updateUser(params: params)
             case .CreateRoom:
                 return createRoom(params: params)
             }
@@ -49,11 +47,12 @@ class LocalServerInteractor: NSObject {
         let user1 = User(json: params["user1"])
         let user2 = User(json: params["user2"])
         
-        let room = RoomsManager().createRoom(users: [user1, user2])
+        let room = RoomsManager().createRoom(user1: user1, user2: user2)
         let tempRoom = Room()
         tempRoom.id = room.id
         tempRoom.name = room.name
-        tempRoom.usersIDs.append(objectsIn: room.usersIDs)
+        tempRoom.user1ID = room.user1ID
+        tempRoom.user2ID = room.user2ID
         guard let roomJSonString = tempRoom.toJSONString() else {
             return "{\"message\":\"failure\"}"
         }
@@ -61,7 +60,7 @@ class LocalServerInteractor: NSObject {
     }
     
     func updateUser(params: JSON) -> String {
-        let user = User(json: params["user"])
+        let user = User(json: params["params"]["user"])
         UsersManager().addUser(user: user)
         
         return "{\"message\":\"updated\"}"
@@ -96,7 +95,7 @@ class LocalServerInteractor: NSObject {
         case .LoadRooms:
             return loadRooms(params: params)
         case .UpdateUser:
-            return ""
+            return updateUser(params: params)
         case .Unknown:
             return ""
         case .LoadUsers:
@@ -128,8 +127,8 @@ class LocalServerInteractor: NSObject {
             var newRoom = Room()
             newRoom.id = room.id
             newRoom.name = room.name
-            newRoom.usersIDs.removeAll()
-            newRoom.usersIDs.append(objectsIn: room.usersIDs)
+            newRoom.user1ID = room.user1ID
+            newRoom.user2ID = room.user2ID
             tempRooms.append(newRoom)
         }
         guard let roomsJSON = tempRooms.toJSONString() else {

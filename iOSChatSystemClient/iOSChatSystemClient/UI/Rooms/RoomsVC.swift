@@ -94,8 +94,24 @@ extension RoomsVC: UITableViewDataSource {
             
             if rooms.value.count > indexPath.row {
                 let room = rooms.value[indexPath.row]
-                cell.nameLabel.text = room.name
-                cell.messagesIndicatorLabel.text = "\(room.unreadMessagesCount)"
+                let name = { () -> String in
+                    let userID = { () -> String in
+                        if room.user1ID == LocalServer.shared.serverURLString.value {
+                            return room.user2ID
+                        }
+                        return room.user1ID
+                    }()
+                    guard let user = UsersManager.shared.user(forID: userID) else {
+                        return userID
+                    }
+                    return user.name.count > 0
+                        ? user.name
+                        : userID
+                }()
+                cell.nameLabel.text = name
+                cell.messagesIndicatorLabel.text = room.unreadMessagesCount > 0
+                    ? "\(room.unreadMessagesCount)"
+                    : ""
             }
             
             return cell

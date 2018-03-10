@@ -30,13 +30,10 @@ class UsersManager: NSObject {
         let storedUser = realm.objects(User.self).filter { (u) -> Bool in
             return user.id == u.id
         }.first
-        if let su = storedUser {
-            su.name = user.name
-        }
         
         try! realm.write {
             if let storedUser = storedUser {
-                realm.add(storedUser, update: true)
+                storedUser.name = user.name
             }else{
                 realm.add(user)
             }
