@@ -62,6 +62,12 @@ extension RoomsVC: UITableViewDelegate {
         if indexPath.section == 0 {
             let s = UIStoryboard(name: "Main", bundle: nil)
             let vc = s.instantiateViewController(withIdentifier: "UsersListVC") as! UsersListVC
+            vc.userSelectedAction = { user in
+                RoomsManager.shared.createRoom(withUSer: user,
+                                               completion: { (room) in
+                                                print("")
+                })
+            }
             navigationController?.pushViewController(vc, animated: true)
         }
     }

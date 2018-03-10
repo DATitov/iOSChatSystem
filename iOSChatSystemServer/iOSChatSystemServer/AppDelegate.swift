@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LocalServer.shared.executeOnServerLaunched {
             ServerManagerInteractor.shared.connect(urlString: ServerManagerInteractor.shared.serverManagerURLString.value,
                                                    comletion: { (connected) in
-                                                    
+                                                    print("")
             })
         }
         

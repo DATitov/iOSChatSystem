@@ -25,7 +25,7 @@ class RoomsManager: NSObject {
         
         let realm = try! Realm()
         try! realm.write {
-            realm.add(rooms, update: true)
+            realm.add(rooms)
         }
         
         self.rooms.value = Array(realm.objects(Room.self))
@@ -35,7 +35,7 @@ class RoomsManager: NSObject {
         SocketManager.shared.write(urlString: ServerInteractor.shared.serverURLString.value,
                                    params: ["method": ServerMethod.Socket.LoadRooms.rawValue,
                                             "sender": LocalServer.shared.serverURLString.value,
-                                            "user_id": UsersManager.shared.currentUser.id],
+                                            "user_id": UsersManager.shared.currentUser?.id ?? LocalServer.shared.serverURLString.value],
                                    completion: { json in
                                     guard let json = json else {
                                         return
@@ -44,6 +44,23 @@ class RoomsManager: NSObject {
                                     self.joinRawRooms(rawRooms: json["rooms"].arrayValue)
                                     print("")
         })
+    }
+    
+    func createRoom(withUSer user: User, completion: @escaping ((Room?) -> ())) {
+        RemoteServerInteractor.shared.executeRequest(urlString: ServerInteractor.shared.serverURLString.value,
+                                                     params: [
+                                                        "method": ServerMethod.CreateRoom.rawValue,
+                                                        "user1": user.toJSONString()!,
+                                                        "user2": user.toJSONString()!
+        ]) { (data, response, error) in
+            guard let data = data,
+                let string = String(data: data, encoding: .utf8) else {
+                    return completion(nil)
+            }
+            let json = JSON(parseJSON: string)
+            let room = Room(withJSON: json)
+            return completion(room)
+        }
     }
     
     func joinRawRooms(rawRooms: [JSON]) {

@@ -37,10 +37,27 @@ class LocalServerInteractor: NSObject {
                 return ""
             case .UpdateUser:
                 return updateUser(params: params)
+            case .CreateRoom:
+                return createRoom(params: params)
             }
         }()
         
         completion(text)
+    }
+    
+    func createRoom(params: JSON) -> String {
+        let user1 = User(json: params["user1"])
+        let user2 = User(json: params["user2"])
+        
+        let room = RoomsManager().createRoom(users: [user1, user2])
+        let tempRoom = Room()
+        tempRoom.id = room.id
+        tempRoom.name = room.name
+        tempRoom.usersIDs.append(objectsIn: room.usersIDs)
+        guard let roomJSonString = tempRoom.toJSONString() else {
+            return "{\"message\":\"failure\"}"
+        }
+        return "{\"room\": \(roomJSonString)}"
     }
     
     func updateUser(params: JSON) -> String {
@@ -104,14 +121,25 @@ class LocalServerInteractor: NSObject {
         let sender = params["params"]["sender"].stringValue
         let requestID = params["params"]["request_uuid"].stringValue
         
-        guard let rooms = RoomsManager().rooms(forUserID: id).toJSONString() else {
+        let rooms = RoomsManager().rooms(forUserID: id)
+        
+        var tempRooms = [Room]()
+        for room in rooms {
+            var newRoom = Room()
+            newRoom.id = room.id
+            newRoom.name = room.name
+            newRoom.usersIDs.removeAll()
+            newRoom.usersIDs.append(objectsIn: room.usersIDs)
+            tempRooms.append(newRoom)
+        }
+        guard let roomsJSON = tempRooms.toJSONString() else {
             return ""
         }
         SocketManager.shared.write(urlString: sender,
                                    params: [
                                     "method": ClientsMethod.Socket.ReceiveRooms.rawValue,
                                     "answer_request_uuid": requestID,
-                                    "rooms": rooms
+                                    "rooms": roomsJSON
             ],
                                    completion: nil)
         
@@ -121,7 +149,16 @@ class LocalServerInteractor: NSObject {
     func loadUsers(params: JSON) -> String {
         let sender = params["params"]["sender"].stringValue
         let requestID = params["params"]["request_uuid"].stringValue
-        guard let users = UsersManager().users().toJSONString() else {
+        let users = UsersManager().users()
+        
+        var tempUsers = [User]()
+        for user in users {
+            let newUser = User()
+            newUser.id = user.id
+            newUser.name = user.name
+            tempUsers.append(newUser)
+        }
+        guard let usersJSON = tempUsers.toJSONString() else {
             return ""
         }
         
@@ -129,7 +166,7 @@ class LocalServerInteractor: NSObject {
                                    params: [
                                     "method": ClientsMethod.Socket.ReceiveUsers.rawValue,
                                     "answer_request_uuid": requestID,
-                                    "users": users
+                                    "users": usersJSON
             ],
                                    completion: nil)
         

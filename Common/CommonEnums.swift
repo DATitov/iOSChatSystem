@@ -23,6 +23,7 @@ enum ServerMethod: String {
     case Ping = "ping"
     case GetUser = "get_user"
     case UpdateUser = "update_user"
+    case CreateRoom = "create_room"
     case Unknown = "unknown"
     
     enum Socket: String {

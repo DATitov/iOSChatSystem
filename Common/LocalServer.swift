@@ -37,7 +37,12 @@ class LocalServer: NSObject {
     }
     
     func start() {
-        server.start()
+        var port = 8000
+        var b = false
+        while !b && port < 8500 {
+            b = server.start(withPort: UInt(port), bonjourName: "Bonj")
+            port += 1
+        }
     }
     
     func initHandlers() {

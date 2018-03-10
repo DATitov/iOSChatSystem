@@ -27,8 +27,8 @@ class Message: Object {
         super.init(value: value, schema: schema)
     }
     
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+//    override static func primaryKey() -> String? {
+//        return "id"
+//    }
     
 }

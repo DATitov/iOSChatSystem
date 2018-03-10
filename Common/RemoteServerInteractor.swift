@@ -52,7 +52,11 @@ class RemoteServerInteractor: NSObject {
                 jsonString.append("\n\"\(key)\":\(valString)")
             }else {
                 valString = "\(value!)"
-                jsonString.append("\n\"\(key)\":\"\(valString)\"")
+                if valString.starts(with: "[") || valString.starts(with: "{") {
+                    jsonString.append("\n\"\(key)\":\(valString)")
+                }else{
+                    jsonString.append("\n\"\(key)\":\"\(valString)\"")
+                }
             }
             if index < json.keys.count - 1 {
                 jsonString.append("\n,")

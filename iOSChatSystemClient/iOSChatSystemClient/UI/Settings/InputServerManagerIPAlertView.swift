@@ -57,7 +57,6 @@ class InputServerManagerIPAlertView: UIView, DTAlertViewProtocol {
         titleLabel.numberOfLines = 0
         titleLabel.text = "Введите url менеджера"
         
-        textField.keyboardType = .emailAddress
         textField.borderStyle = .roundedRect
         textField.placeholder = "192.168. . :port/"
         textField.text = ipAddress

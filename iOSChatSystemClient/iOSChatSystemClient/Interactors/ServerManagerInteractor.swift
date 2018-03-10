@@ -43,9 +43,13 @@ class ServerManagerInteractor: NSObject {
                         "url_string" : LocalServer.shared.serverURLString.value
             ]] as [String : Any]
         RemoteServerInteractor.shared.executeRequest(urlString: urlString, params: params) { (data, response, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            }
             let success = error == nil && (data != nil || response != nil)
             if success {
                 UserDefaultsInteractor().setServerManagerURLString(serverManagerURLString: urlString)
+                self.serverManagerURLString.value = urlString
                 self.serverManagerConnected.value = true
             }
             self.serverManagerURLString.value = urlString
@@ -70,17 +74,18 @@ class ServerManagerInteractor: NSObject {
                 return text
             }()
             
-            self.storeServerURLString(text: text)
+            let json = JSON(parseJSON: text)
+            let urlString = json["server_url"].stringValue
             
-            comletion(text)
+            self.storeServerURLString(urlString: urlString)
+            
+            comletion(urlString)
         }
     }
     
-    func storeServerURLString(text: String) {
-        let json = JSON(parseJSON: text)
-        let serverURLString = json["server_url"].stringValue
-        if serverURLString.contains("http") {
-            ServerInteractor.shared.serverURLString.value = serverURLString
+    func storeServerURLString(urlString: String) {
+        if urlString.contains("http") {
+            ServerInteractor.shared.serverURLString.value = urlString
         }
     }
 

@@ -11,8 +11,18 @@ import UIKit
 class InputServerManagerIPVM: UIView {
 
     func connect(urlString: String, comletion: @escaping ((Bool) -> ())) {
-        ServerManagerInteractor.shared.connect(urlString: "http://" + urlString) { succeed in
+        let string = urlString.starts(with: "http://")
+            ? urlString
+            : "http://" + urlString
+        ServerManagerInteractor.shared.connect(urlString: string) { succeed in
             comletion(succeed)
+            if succeed {
+                ServerManagerInteractor.shared.requestServerURL(comletion: { (urlString) in
+                    UsersManager.shared.getUser()
+                    ServerInteractor.shared.loadRooms()
+                    UsersManager.shared.loadUsers()
+                })
+            }
         }
     }
     

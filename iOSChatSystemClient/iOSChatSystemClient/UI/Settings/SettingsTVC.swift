@@ -17,6 +17,7 @@ class SettingsTVC: UITableViewController {
 
     @IBOutlet var serverManagerIPAdderssLabel: UILabel!
     @IBOutlet var serverURLLabel: UILabel!
+    @IBOutlet var clientURLLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,10 @@ class SettingsTVC: UITableViewController {
         
         ServerInteractor.shared.serverURLString.asObservable()
             .bind(to: self.serverURLLabel.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        LocalServer.shared.serverURLString.asObservable()
+            .bind(to: self.clientURLLabel.rx.text)
             .disposed(by: self.disposeBag)
     }
 

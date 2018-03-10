@@ -18,7 +18,7 @@ class Room: Object, Mappable {
     @objc dynamic var name = ""
     @objc dynamic var unreadMessagesCount = 0
     
-    let users = List<User>()
+    let usersIDs = List<String>()
     
     required init(realm: RLMRealm, schema: RLMObjectSchema) {
         super.init(realm: realm, schema: schema)
@@ -50,8 +50,8 @@ class Room: Object, Mappable {
         unreadMessagesCount <- map["unreadMessagesCount"]
     }
     
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+//    override static func primaryKey() -> String? {
+//        return "id"
+//    }
     
 }

@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if succeed {
                     ServerManagerInteractor.shared.requestServerURL(comletion: { (urlString) in
                         UsersManager.shared.getUser()
+                        ServerInteractor.shared.loadRooms()
+                        UsersManager.shared.loadUsers()
                     })
                 }
             }
