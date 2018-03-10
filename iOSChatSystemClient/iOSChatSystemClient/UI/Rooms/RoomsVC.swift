@@ -15,6 +15,8 @@ class RoomsVC: UIViewController {
     let disposeBag = DisposeBag()
     
     @IBOutlet var tableView: UITableView!
+    
+    let refreshControll = UIRefreshControl()
 
     let rooms = Variable<[Room]>(RoomsManager.shared.rooms.value)
     
@@ -24,6 +26,11 @@ class RoomsVC: UIViewController {
         self.title = "Диалоги"
         
         initBindings()
+        
+        refreshControll.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControll)
+        
+        RoomsManager.shared.updateRooms()
     }
     
     func initBindings() {
@@ -38,6 +45,11 @@ class RoomsVC: UIViewController {
                 }
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    @objc func refresh() {
+        RoomsManager.shared.updateRooms()
+        refreshControll.endRefreshing()
     }
 
 }

@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class RemoteServerInteractor: NSObject {
     
-    let senderURLHEaderKey = "sender_url"
+    let senderURLHeaderKey = "sender_url"
     
     static let shared: RemoteServerInteractor = {
         let instance = RemoteServerInteractor()
@@ -27,7 +27,7 @@ class RemoteServerInteractor: NSObject {
         request.httpMethod = "POST"
         request.httpBody = jsonData(json: params)
         
-        request.addValue(senderURLHEaderKey, forHTTPHeaderField: LocalServer.shared.serverURLString.value)
+        request.addValue(senderURLHeaderKey, forHTTPHeaderField: LocalServer.shared.serverURLString.value)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {

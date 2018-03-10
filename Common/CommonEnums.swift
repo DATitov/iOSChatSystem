@@ -21,10 +21,13 @@ enum ServerMethod: String {
     case ConnectServerManager = "connect_server_manager"
     case ReceiveMessage = "receive_message"
     case Ping = "ping"
+    case GetUser = "get_user"
+    case UpdateUser = "update_user"
     case Unknown = "unknown"
     
     enum Socket: String {
         case LoadRooms = "load_rooms"
+        case LoadUsers = "load_users"
         case UpdateUser = "update_user"
         case Unknown = "unknown"
     }
@@ -35,5 +38,9 @@ enum ClientsMethod: String {
     case Ping = "ping"
     case Unknown = "unknown"
     
-    case SocketReceiveRooms = "receive_rooms"
+    enum Socket: String {
+        case ReceiveRooms = "receive_rooms"
+        case ReceiveUsers = "receive_users"
+        case Unknown = "unknown"
+    }
 }

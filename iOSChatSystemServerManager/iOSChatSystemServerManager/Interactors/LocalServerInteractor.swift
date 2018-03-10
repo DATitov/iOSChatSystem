@@ -31,7 +31,7 @@ class LocalServerInteractor: NSObject {
                 return connectServer(params: params)
             case .Ping:
                 return "Pong"
-            case .Unknown:
+            case .Unknown: 
                 return ""
             }
         }()

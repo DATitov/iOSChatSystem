@@ -25,9 +25,7 @@ class ServerManagerInteractor: NSObject {
         super.init()
         
         self.recconectTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.recconectIfNeeded), userInfo: nil, repeats: true)
-//        Timer(timeInterval: 5, target: self, selector: #selector(self.recconectIfNeeded), userInfo: nil, repeats: true)
         self.pingTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.sendPing), userInfo: nil, repeats: true)
-        //Timer(timeInterval: 5, target: self, selector: #selector(self.sendPing), userInfo: nil, repeats: true)
         
     }
     
@@ -38,11 +36,13 @@ class ServerManagerInteractor: NSObject {
     }
     
     @objc func sendPing() {
-        RemoteServerInteractor.shared.executeRequest(urlString: serverManagerURLString.value,
-                                                     params: ["method": ServerManagerMethod.Ping.rawValue]) { (data, response, error) in
-                                                        if let error = error {
-                                                            self.serverConnected.value = false
-                                                        }
+        if serverConnected.value {
+            RemoteServerInteractor.shared.executeRequest(urlString: serverManagerURLString.value,
+                                                         params: ["method": ServerManagerMethod.Ping.rawValue]) { (data, response, error) in
+                                                            if let error = error {
+                                                                self.serverConnected.value = false
+                                                            }
+            }
         }
     }
     

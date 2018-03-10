@@ -17,6 +17,8 @@ class ServerInteractor: NSObject {
     }()
 
     let serverURLString = Variable<String>("")
+    
+    fileprivate var afeterServerConnectedQuery = [() -> ()]()
 
     func loadRooms() {
         RemoteServerInteractor.shared.executeRequest(urlString: serverURLString.value,
@@ -28,18 +30,6 @@ class ServerInteractor: NSObject {
         ]) { (data, response, error) in
                                                                     
         }
-    }
-    
-    func updateUser() {
-//        RemoteServerInteractor.shared.executeRequest(urlString: serverURLString,
-//                                                     params: ["method": "\"\(ServerMethod.ReceiveMessage.rawValue)\"",
-//                                                        "params":
-//                                                            [
-//                                                                "method": "\"\(ServerMethod.SocketLoadRooms.rawValue)\""
-//                                                                ] as [String: Any]
-//        ]) { (data, response, error) in
-//            
-//        }
     }
     
 }

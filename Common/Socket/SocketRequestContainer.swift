@@ -7,18 +7,19 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class SocketRequestContainer: NSObject {
 
     let dateCreated = Date()
-    var completion: (() -> ())?
+    var completion: ((JSON?) -> ())?
     let uuid = UUID().uuidString
     
-    func complete() {
+    func complete(params: JSON?) {
         guard let completion = completion else {
             return
         }
-        completion()
+        completion(params)
     }
     
 }

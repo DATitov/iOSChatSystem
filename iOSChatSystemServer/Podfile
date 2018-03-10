@@ -16,6 +16,7 @@ pod 'RxCocoa',    '~> 4.0'
 pod 'Alamofire'
 pod 'DTAlertViewContainer'
 pod 'DateToolsSwift'
+pod 'ObjectMapper'
 
   target 'iOSChatSystemServerTests' do
     inherit! :search_paths

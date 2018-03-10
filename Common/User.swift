@@ -10,11 +10,16 @@ import UIKit
 import Realm
 import RealmSwift
 import SwiftyJSON
+import ObjectMapper
 
-class User: Object {
-
+class User: Object, Mappable {
+    
     let idKey = "id"
     let nameKey = "name"
+    
+    required init?(map: Map) {
+        super.init()
+    }
     
     @objc dynamic var id = UUID().uuidString
     @objc dynamic var name = ""
@@ -40,6 +45,11 @@ class User: Object {
     
     override static func primaryKey() -> String? {
         return "id"
+    }
+    
+    func mapping(map: Map) {
+        id <- map["id"]
+        name <- map["name"]
     }
     
 }

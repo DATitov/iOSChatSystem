@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import Realm
 import RealmSwift
+import SwiftyJSON
 
 class RoomsManager: NSObject {
     
@@ -28,6 +29,30 @@ class RoomsManager: NSObject {
         }
         
         self.rooms.value = Array(realm.objects(Room.self))
+    }
+    
+    func updateRooms() {
+        SocketManager.shared.write(urlString: ServerInteractor.shared.serverURLString.value,
+                                   params: ["method": ServerMethod.Socket.LoadRooms.rawValue,
+                                            "sender": LocalServer.shared.serverURLString.value,
+                                            "user_id": UsersManager.shared.currentUser.id],
+                                   completion: { json in
+                                    guard let json = json else {
+                                        return
+                                    }
+                                    
+                                    self.joinRawRooms(rawRooms: json["rooms"].arrayValue)
+                                    print("")
+        })
+    }
+    
+    func joinRawRooms(rawRooms: [JSON]) {
+        var rooms = [Room]()
+        for rawRoom in rawRooms {
+            rooms.append(Room(withJSON: rawRoom))
+        }
+        
+        self.rooms.value = rooms
     }
     
 }

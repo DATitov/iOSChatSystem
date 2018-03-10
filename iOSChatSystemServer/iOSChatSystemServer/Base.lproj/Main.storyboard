@@ -113,7 +113,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="URL сервера распорядителя:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v79-0y-tOD">
-                                                    <rect key="frame" x="16" y="11" width="309" height="21"/>
+                                                    <rect key="frame" x="17" y="11" width="308" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="eJ4-D5-TnO"/>
                                                     </constraints>
@@ -136,7 +136,7 @@
                                                 <constraint firstItem="sKd-Gd-Yvw" firstAttribute="leading" secondItem="hhP-9C-tMC" secondAttribute="leading" constant="16" id="f8N-9n-LVY"/>
                                                 <constraint firstAttribute="bottom" secondItem="sKd-Gd-Yvw" secondAttribute="bottom" constant="10.5" id="lKy-e5-TS2"/>
                                                 <constraint firstItem="v79-0y-tOD" firstAttribute="top" secondItem="hhP-9C-tMC" secondAttribute="top" constant="11" id="oMV-68-fGe"/>
-                                                <constraint firstItem="v79-0y-tOD" firstAttribute="leading" secondItem="hhP-9C-tMC" secondAttribute="leading" constant="16" id="orl-Ps-gij"/>
+                                                <constraint firstItem="v79-0y-tOD" firstAttribute="leading" secondItem="hhP-9C-tMC" secondAttribute="leading" constant="17" id="orl-Ps-gij"/>
                                                 <constraint firstAttribute="trailing" secondItem="v79-0y-tOD" secondAttribute="trailing" constant="16" id="tcH-Ff-dsW"/>
                                             </constraints>
                                         </tableViewCellContentView>

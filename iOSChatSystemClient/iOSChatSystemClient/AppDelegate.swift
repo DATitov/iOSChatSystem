@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,10 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ServerManagerInteractor.shared.connect(urlString: ServerManagerInteractor.shared.serverManagerURLString.value) { succeed in
                 if succeed {
                     ServerManagerInteractor.shared.requestServerURL(comletion: { (urlString) in
-                        print("")
-                        ServerInteractor.shared.loadRooms()
+                        UsersManager.shared.getUser()
                     })
-                    
                 }
             }
             

@@ -17,7 +17,24 @@ class ServerManagerInteractor: NSObject {
         return instance
     }()
     
-    var serverManagerURLString = Variable<String>(UserDefaultsInteractor().getServerManagerURLString())
+    let serverManagerURLString = Variable<String>(UserDefaultsInteractor().getServerManagerURLString())
+    let serverManagerConnected = Variable<Bool>(false)
+    
+    var timer: Timer!
+    
+    override init() {
+        super.init()
+        
+        self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { _ in
+            if !self.serverManagerConnected.value {
+                self.connect(urlString: self.serverManagerURLString.value, comletion: { _ in
+                    self.requestServerURL(comletion: { _ in
+                        
+                    })
+                })
+            }
+        })
+    }
     
     func connect(urlString: String, comletion: @escaping ((Bool) -> ())) {
         let params = ["method": ServerManagerMethod.ConnectClient.rawValue,
@@ -29,6 +46,7 @@ class ServerManagerInteractor: NSObject {
             let success = error == nil && (data != nil || response != nil)
             if success {
                 UserDefaultsInteractor().setServerManagerURLString(serverManagerURLString: urlString)
+                self.serverManagerConnected.value = true
             }
             self.serverManagerURLString.value = urlString
             comletion(success)

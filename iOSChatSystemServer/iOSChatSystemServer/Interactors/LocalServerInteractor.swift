@@ -31,16 +31,50 @@ class LocalServerInteractor: NSObject {
                 return "pong"
             case .ReceiveMessage:
                 return receiveMessage(params: params)
+            case .GetUser:
+                return getUser(params: params)
             case .Unknown:
                 return ""
+            case .UpdateUser:
+                return updateUser(params: params)
             }
         }()
         
         completion(text)
     }
     
+    func updateUser(params: JSON) -> String {
+        let user = User(json: params["user"])
+        UsersManager().addUser(user: user)
+        
+        return "{\"message\":\"updated\"}"
+    }
+    
+    func getUser(params: JSON) -> String {
+        let userID = params["params"]["user_id"].stringValue
+        let user = { () -> User in
+            if let user = UsersManager().user(forID: userID) {
+                return user
+            }else{
+                let user = User()
+                user.id = userID
+                UsersManager().addUser(user: user)
+                return user
+            }
+        }()
+        
+        let newUser = User()
+        newUser.id = user.id
+        newUser.name = user.name
+        
+        guard let userJson = newUser.toJSONString() else {
+            return ""
+        }
+        return "{\"user\":\(userJson)}"
+    }
+    
     func receiveMessage(params: JSON) -> String {
-        let method = params["method"].stringValue
+        let method = params["params"]["method"].stringValue
         switch ServerMethod.Socket(rawValue: method) ?? ServerMethod.Socket.Unknown {
         case .LoadRooms:
             return loadRooms(params: params)
@@ -48,6 +82,8 @@ class LocalServerInteractor: NSObject {
             return ""
         case .Unknown:
             return ""
+        case .LoadUsers:
+            return loadUsers(params: params)
         }
     }
     
@@ -64,7 +100,38 @@ class LocalServerInteractor: NSObject {
     }
     
     func loadRooms(params: JSON) -> String {
-        let user = User()
+        let id = params["params"]["user_id"].stringValue
+        let sender = params["params"]["sender"].stringValue
+        let requestID = params["params"]["request_uuid"].stringValue
+        
+        guard let rooms = RoomsManager().rooms(forUserID: id).toJSONString() else {
+            return ""
+        }
+        SocketManager.shared.write(urlString: sender,
+                                   params: [
+                                    "method": ClientsMethod.Socket.ReceiveRooms.rawValue,
+                                    "answer_request_uuid": requestID,
+                                    "rooms": rooms
+            ],
+                                   completion: nil)
+        
+        return ""
+    }
+    
+    func loadUsers(params: JSON) -> String {
+        let sender = params["params"]["sender"].stringValue
+        let requestID = params["params"]["request_uuid"].stringValue
+        guard let users = UsersManager().users().toJSONString() else {
+            return ""
+        }
+        
+        SocketManager.shared.write(urlString: sender,
+                                   params: [
+                                    "method": ClientsMethod.Socket.ReceiveUsers.rawValue,
+                                    "answer_request_uuid": requestID,
+                                    "users": users
+            ],
+                                   completion: nil)
         
         return ""
     }

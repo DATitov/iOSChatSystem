@@ -15,6 +15,7 @@ target 'iOSChatSystemClient' do
   pod 'Alamofire'
   pod 'DTAlertViewContainer'
   pod 'DateToolsSwift'
+  pod 'ObjectMapper'
   
   
   target 'iOSChatSystemClientTests' do

@@ -26,15 +26,26 @@ class LocalServerInteractor: NSObject {
             case .Unknown:
                 return ""
             case .ReceiveMessage:
-                return ""
-            case .SocketReceiveRooms:
-                return receiveRooms(params: params)
+                return receiveMessage(params: params["params"])
             case .Ping:
                 return "{\"message\":\"pong\"}"
             }
         }()
         
         completion(text)
+    }
+    
+    func receiveMessage(params: JSON) -> String {
+        let request_uuid = params["answer_request_uuid"].stringValue
+        SocketManager.shared.complete(withRequestUUID: request_uuid, params: params)
+        return ""
+//        let method = params["method"].stringValue
+//        switch ClientsMethod.Socket(rawValue: method) ?? ClientsMethod.Socket.Unknown {
+//        case .ReceiveRooms:
+//            return receiveRooms(params: params)
+//        case .Unknown:
+//            return ""
+//        }
     }
     
     func receiveRooms(params: JSON) -> String {

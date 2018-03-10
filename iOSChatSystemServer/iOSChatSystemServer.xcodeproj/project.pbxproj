@@ -32,6 +32,9 @@
 		2880EA6C20529D860033FF8C /* RoomsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880EA6B20529D860033FF8C /* RoomsManager.swift */; };
 		2880EA7F2052B9C20033FF8C /* InputServerManagerIPAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880EA7D2052B9C10033FF8C /* InputServerManagerIPAlertView.swift */; };
 		2880EA822052BA5A0033FF8C /* InputServerManagerIPVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880EA812052BA5A0033FF8C /* InputServerManagerIPVM.swift */; };
+		2880EA8A2053AD5F0033FF8C /* SocketRequestContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880EA882053AD5F0033FF8C /* SocketRequestContainer.swift */; };
+		2880EA8B2053AD5F0033FF8C /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880EA892053AD5F0033FF8C /* SocketManager.swift */; };
+		28BFE4FD2053BD3300ED7073 /* UsersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BFE4FC2053BD3300ED7073 /* UsersManager.swift */; };
 		40D8C6B83CBC117C44D17931 /* Pods_iOSChatSystemServerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7F1D91329C84465E9EC705 /* Pods_iOSChatSystemServerTests.framework */; };
 		6138176D8268A98DD14D1B95 /* Pods_iOSChatSystemServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 004A8E75017A3785AC467BD7 /* Pods_iOSChatSystemServer.framework */; };
 		B479056AC2856CC72ECE320A /* Pods_iOSChatSystemServerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20FC1358CA30BFF0E377053A /* Pods_iOSChatSystemServerUITests.framework */; };
@@ -91,6 +94,9 @@
 		2880EA6B20529D860033FF8C /* RoomsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomsManager.swift; sourceTree = "<group>"; };
 		2880EA7D2052B9C10033FF8C /* InputServerManagerIPAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputServerManagerIPAlertView.swift; sourceTree = "<group>"; };
 		2880EA812052BA5A0033FF8C /* InputServerManagerIPVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputServerManagerIPVM.swift; sourceTree = "<group>"; };
+		2880EA882053AD5F0033FF8C /* SocketRequestContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocketRequestContainer.swift; path = ../../../../Common/Socket/SocketRequestContainer.swift; sourceTree = "<group>"; };
+		2880EA892053AD5F0033FF8C /* SocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocketManager.swift; path = ../../../../Common/Socket/SocketManager.swift; sourceTree = "<group>"; };
+		28BFE4FC2053BD3300ED7073 /* UsersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersManager.swift; sourceTree = "<group>"; };
 		3D1744EFA3F0E756D95A2B32 /* Pods-iOSChatSystemServer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemServer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemServer/Pods-iOSChatSystemServer.debug.xcconfig"; sourceTree = "<group>"; };
 		4D271C0CAD2C794600D44628 /* Pods-iOSChatSystemServer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemServer.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemServer/Pods-iOSChatSystemServer.release.xcconfig"; sourceTree = "<group>"; };
 		CA22532207B2F80F74B5C5A7 /* Pods-iOSChatSystemServerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSChatSystemServerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOSChatSystemServerTests/Pods-iOSChatSystemServerTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -138,9 +144,11 @@
 		2849458E204C17F70012EAE1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				2880EA872053AD420033FF8C /* Socket */,
 				2849458C204C17F40012EAE1 /* ClientsManager.swift */,
 				2880EA67205297030033FF8C /* ServerInfoManager.swift */,
 				2880EA6B20529D860033FF8C /* RoomsManager.swift */,
+				28BFE4FC2053BD3300ED7073 /* UsersManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -234,6 +242,15 @@
 				2880EA69205299090033FF8C /* InputServerNameView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		2880EA872053AD420033FF8C /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				2880EA892053AD5F0033FF8C /* SocketManager.swift */,
+				2880EA882053AD5F0033FF8C /* SocketRequestContainer.swift */,
+			);
+			path = Socket;
 			sourceTree = "<group>";
 		};
 		40D537F9C5232468CC1ECA07 /* Frameworks */ = {
@@ -409,6 +426,7 @@
 				"${BUILT_PRODUCTS_DIR}/DTAlertViewContainer/DTAlertViewContainer.framework",
 				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -421,6 +439,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTAlertViewContainer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GCDWebServer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -572,6 +591,7 @@
 				2880EA68205297030033FF8C /* ServerInfoManager.swift in Sources */,
 				2880EA6C20529D860033FF8C /* RoomsManager.swift in Sources */,
 				28494584204C16E90012EAE1 /* Server.swift in Sources */,
+				2880EA8B2053AD5F0033FF8C /* SocketManager.swift in Sources */,
 				287F1162204AF92E007044A3 /* ViewController.swift in Sources */,
 				2849458B204C17990012EAE1 /* ServerManagerInteractor.swift in Sources */,
 				287F1160204AF92E007044A3 /* AppDelegate.swift in Sources */,
@@ -582,7 +602,9 @@
 				2880EA632052947B0033FF8C /* UserDefaultsInteractor.swift in Sources */,
 				2880EA56205265500033FF8C /* Message.swift in Sources */,
 				2880EA822052BA5A0033FF8C /* InputServerManagerIPVM.swift in Sources */,
+				28BFE4FD2053BD3300ED7073 /* UsersManager.swift in Sources */,
 				287F1198204AFA3A007044A3 /* LocalServerInteractor.swift in Sources */,
+				2880EA8A2053AD5F0033FF8C /* SocketRequestContainer.swift in Sources */,
 				2880EA66205295E90033FF8C /* MainTVC.swift in Sources */,
 				2880EA57205265500033FF8C /* User.swift in Sources */,
 				28494585204C16E90012EAE1 /* Client.swift in Sources */,
