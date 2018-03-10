@@ -35,6 +35,7 @@ class RoomsVC: UIViewController {
     
     func initBindings() {
         RoomsManager.shared.rooms.asObservable()
+            .map({ $0.filter({ $0.user1ID != $0.user2ID }) })
             .bind(to: self.rooms)
             .disposed(by: self.disposeBag)
         

@@ -51,7 +51,7 @@ class RoomsManager: NSObject {
         RemoteServerInteractor.shared.executeRequest(urlString: ServerInteractor.shared.serverURLString.value,
                                                      params: [
                                                         "method": ServerMethod.CreateRoom.rawValue,
-                                                        "user1": user.toJSONString()!,
+                                                        "user1": UsersManager.shared.getCurrentUser().toJSONString()!,
                                                         "user2": user.toJSONString()!
         ]) { (data, response, error) in
             guard let data = data,
