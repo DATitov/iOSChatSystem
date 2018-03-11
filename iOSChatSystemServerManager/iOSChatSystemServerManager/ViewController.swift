@@ -84,7 +84,8 @@ extension ViewController: NSTableViewDelegate {
     func value(forTV tv: NSTableView, row: Int) -> String? {
         if tv.isEqual(self.clientsTableView) {
             if row < ClientsManager.shared.clients.value.count {
-                return ClientsManager.shared.clients.value[row].urlString
+                let user = ClientsManager.shared.clients.value[row]
+                return user.name.count > 0 ? user.name : user.urlString
             }else{
                 return nil
             }

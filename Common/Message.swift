@@ -53,4 +53,14 @@ class Message: Object {
         return DateFormatter(withFormat: "EEE, dd MMM yyyy hh:mm:ss +zzzz", locale: "ru_RU").date(from: string)!
     }
     
+    func toJSONStr() -> String {
+        var str = "{"
+        str.append("\"id\":\"\(id)\", ")
+        str.append("\"text\":\"\(text)\", ")
+        str.append("\"roomID\":\"\(roomID)\", ")
+        str.append("\"senderID\":\"\(senderID)\", ")
+        str.append("\"date\":\"\(dateString())\"}")
+        return str
+    }
+    
 }

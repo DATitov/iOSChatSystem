@@ -47,6 +47,7 @@ enum ClientsMethod: String {
     
     enum Room: String {
         case ReceiveMessage = "receive_message"
+        case ReceiveMessages = "receive_messages"
         case GetMessages = "get_messages"
         case Ping = "ping"
         case Unknown = "unknown"

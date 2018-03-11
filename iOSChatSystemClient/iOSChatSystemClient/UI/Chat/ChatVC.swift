@@ -29,8 +29,6 @@ class ChatVC: QMChatViewController {
     func inject(viewModel: ChatScreenVM) {
         vm = viewModel
         
-        
-        
         vm?.newMessages.asObservable()
             .subscribe(onNext: { (newMessages) in
                 DispatchQueue.main.async {

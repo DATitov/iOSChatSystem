@@ -52,7 +52,13 @@ class LocalServerInteractor: NSObject {
             return ""
         case .Unknown:
             return ""
+        case .ReceiveMessages:
+            return receiveMessages(params: params)
         }
+        return ""
+    }
+    
+    func receiveMessages(params: JSON) -> String {
         return ""
     }
     
@@ -63,6 +69,26 @@ class LocalServerInteractor: NSObject {
     }
     
     func getMessages(params: JSON) -> String {
+        let request_uuid = params["params"]["request_uuid"].stringValue
+        let roomID = params["params"]["roomID"].stringValue
+        let senderURLString = params["params"]["senderURLString"].stringValue
+        guard let manager = RoomsManager.shared.manager(forID: roomID) else {
+            return ""
+        }
+        let messages = manager.loadLocalMessages()
+        var messagesJSONSTring = "["
+        for (index, message) in messages.enumerated() {
+            let jsonString = message.toJSONStr() + ((index == messages.count - 1) ? "]" : ",")
+            messagesJSONSTring.append(jsonString)
+        }
+        SocketManager.shared.write(urlString: senderURLString,
+                                   params: [
+                                    "method": ClientsMethod.Room.ReceiveMessages.rawValue,
+                                    "answer_request_uuid": request_uuid,
+                                    "messages": messagesJSONSTring
+            ],
+                                   completion: nil)
+        
         return ""
     }
     

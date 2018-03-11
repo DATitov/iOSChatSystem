@@ -21,6 +21,18 @@ class RoomsManager: NSObject {
     
     let roomsManagers = Variable<[ChatManager]>([ChatManager]())
     
+    override init() {
+        super.init()
+        
+        let realm = try! Realm()
+        var managers = [ChatManager]()
+        for room in realm.objects(Room.self) {
+            let newRoom = Room(room: room)
+            managers.append(ChatManager(room: room))
+        }
+        self.roomsManagers.value = managers
+    }
+    
     func addRooms(rooms: [Room]) {
         
         let realm = try! Realm()
@@ -87,8 +99,11 @@ class RoomsManager: NSObject {
         manager.receiveMessage(message: message)
     }
     
-    func manager(forID id: String) -> ChatManager {
-        return roomsManagers.value.filter({ $0.room.id == id }).first!
+    func manager(forID id: String) -> ChatManager? {
+        guard let manager = roomsManagers.value.filter({ $0.room.id == id }).first else {
+            return nil
+        }
+        return manager
     }
     
 }

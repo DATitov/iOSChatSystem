@@ -40,27 +40,28 @@ class ChatManager: NSObject {
             : room.user1ID
         otherUserName = UsersManager.shared.user(forID: otherUserID)?.name
         
-        loadLocalRooms()
-        
         pingTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { _ in
             self.sendPing()
         })
+        
+        self.newMessages.value = loadLocalMessages()
     }
     
-    func loadLocalRooms() {
+    func loadLocalMessages() -> [Message] {
         let realm = try! Realm()
         let messages = realm.objects(Message.self).filter({ $0.roomID == self.room.id })
         var newMessages = [Message]()
         for message in messages {
             let newMessage = Message()
             newMessage.id = message.id
+            newMessage.roomID = message.roomID
             newMessage.text = message.text
             newMessage.senderID = message.senderID
             newMessage.date = message.date
             
             newMessages.append(newMessage)
         }
-        self.newMessages.value = newMessages
+        return newMessages
     }
     
     func sendMessage(message: Message) {
@@ -99,6 +100,20 @@ class ChatManager: NSObject {
         : 1
         
         return qbMessage
+    }
+    
+    func requestStoredMessages() {
+        let params = ["method": ClientsMethod.Room.GetMessages.rawValue,
+                      "roomID": room.id,
+                      "senderURLString": LocalServer.shared.serverURLString.value]
+        
+        ChatSocketManager.sharedCSM.write(urlString: otherUserID,
+                                          params: params) { (json) in
+                                            guard let json = json else {
+                                                return
+                                            }
+                                            print("")
+        }
     }
     
 }

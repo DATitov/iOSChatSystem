@@ -33,6 +33,8 @@ class ChatScreenVM: NSObject {
             .map({ $0.map({ ChatManager.qbMessage(fromMessage: $0) }) })
             .bind(to: self.newMessages)
             .disposed(by: self.disposeBag)
+        
+        chatManager.requestStoredMessages()
     }
     
     func generateMessages() {
@@ -49,7 +51,7 @@ class ChatScreenVM: NSObject {
         message.senderID = LocalServer.shared.serverURLString.value
         message.text = text
         message.roomID = room.id
-        
+                
         chatManager.sendMessage(message: message)
         
         let realm = try! Realm()
