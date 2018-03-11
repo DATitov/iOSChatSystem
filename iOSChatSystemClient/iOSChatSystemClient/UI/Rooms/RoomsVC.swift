@@ -18,7 +18,7 @@ class RoomsVC: UIViewController {
     
     let refreshControll = UIRefreshControl()
 
-    let rooms = Variable<[Room]>(RoomsManager.shared.rooms.value)
+    let rooms = Variable<[ChatManager]>(RoomsManager.shared.roomsManagers.value)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +34,8 @@ class RoomsVC: UIViewController {
     }
     
     func initBindings() {
-        RoomsManager.shared.rooms.asObservable()
-            .map({ $0.filter({ $0.user1ID != $0.user2ID }) })
+        RoomsManager.shared.roomsManagers.asObservable()
+//            .map({ $0.filter({ $0 .user1ID != $0.user2ID }) })
             .bind(to: self.rooms)
             .disposed(by: self.disposeBag)
         
@@ -70,6 +70,11 @@ extension RoomsVC: UITableViewDelegate {
                 })
             }
             navigationController?.pushViewController(vc, animated: true)
+        }else{
+            let vm = ChatScreenVM(withRoom: rooms.value[indexPath.row].room)
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
+            vc.inject(viewModel: vm)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -94,7 +99,7 @@ extension RoomsVC: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "RoomTVCellIdentifier") as! RoomTVCell
             
             if rooms.value.count > indexPath.row {
-                let room = rooms.value[indexPath.row]
+                let room = rooms.value[indexPath.row].room!
                 let name = { () -> String in
                     let userID = { () -> String in
                         if room.user1ID == LocalServer.shared.serverURLString.value {

@@ -19,7 +19,7 @@ class RoomsManager: NSObject {
         return instance
     }()
     
-    let rooms = Variable<[Room]>([Room]())
+    let roomsManagers = Variable<[ChatManager]>([ChatManager]())
     
     func addRooms(rooms: [Room]) {
         
@@ -28,7 +28,12 @@ class RoomsManager: NSObject {
             realm.add(rooms)
         }
         
-        self.rooms.value = Array(realm.objects(Room.self))
+        var managers = [ChatManager]()
+        for room in realm.objects(Room.self) {
+            let newRoom = Room(room: room)
+            managers.append(ChatManager(room: room))
+        }
+        self.roomsManagers.value = managers
     }
     
     func updateRooms() {
@@ -65,12 +70,25 @@ class RoomsManager: NSObject {
     }
     
     func joinRawRooms(rawRooms: [JSON]) {
-        var rooms = [Room]()
+        var rooms = [ChatManager]()
         for rawRoom in rawRooms {
-            rooms.append(Room(withJSON: rawRoom))
+            let room = Room(withJSON: rawRoom)
+            let manager = ChatManager(room: room)
+            rooms.append(manager)
         }
         
-        self.rooms.value = rooms
+        self.roomsManagers.value = rooms
+    }
+    
+    func receiveMessage(message: Message) {
+        guard let manager = roomsManagers.value.filter({ $0.room.id == message.roomID }).first else {
+            return
+        }
+        manager.receiveMessage(message: message)
+    }
+    
+    func manager(forID id: String) -> ChatManager {
+        return roomsManagers.value.filter({ $0.room.id == id }).first!
     }
     
 }

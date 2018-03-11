@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import QMChatViewController
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,12 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         _ = LocalServer.shared
         
+        QBSettings.setAccountKey("RRZAkt62LVxfj2Rv2px4")
+        QBSettings.setAuthKey("Cw-sJfr6PBb7fkB")
+        
         LocalServer.shared.executeOnServerLaunched {
             ServerManagerInteractor.shared.connect(urlString: ServerManagerInteractor.shared.serverManagerURLString.value) { succeed in
                 if succeed {
                     ServerManagerInteractor.shared.requestServerURL(comletion: { (urlString) in
                         UsersManager.shared.getUser()
-                        ServerInteractor.shared.loadRooms()
+//                        RoomsManager.shared.updateRooms()
                         UsersManager.shared.loadUsers()
                     })
                 }

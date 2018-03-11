@@ -35,12 +35,20 @@ enum ServerMethod: String {
 
 enum ClientsMethod: String {
     case ReceiveMessage = "receive_message"
+    case ReceiveChatMessage = "receive_chat_message"
     case Ping = "ping"
     case Unknown = "unknown"
     
     enum Socket: String {
         case ReceiveRooms = "receive_rooms"
         case ReceiveUsers = "receive_users"
+        case Unknown = "unknown"
+    }
+    
+    enum Room: String {
+        case ReceiveMessage = "receive_message"
+        case GetMessages = "get_messages"
+        case Ping = "ping"
         case Unknown = "unknown"
     }
 }

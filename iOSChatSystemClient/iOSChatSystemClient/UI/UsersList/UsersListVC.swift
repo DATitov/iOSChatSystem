@@ -56,6 +56,8 @@ extension UsersListVC: UITableViewDelegate {
             let action = userSelectedAction {
             let selectedUser = users.value[indexPath.row]
             action(selectedUser)
+            navigationController?.popViewController(animated: true)
+            RoomsManager.shared.updateRooms()
         }
     }
     

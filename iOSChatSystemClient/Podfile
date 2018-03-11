@@ -16,7 +16,7 @@ target 'iOSChatSystemClient' do
   pod 'DTAlertViewContainer'
   pod 'DateToolsSwift'
   pod 'ObjectMapper'
-  pod 'Chatto'
+  pod 'QMChatViewController'
   
   
   target 'iOSChatSystemClientTests' do

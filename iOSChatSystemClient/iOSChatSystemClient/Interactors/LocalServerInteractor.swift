@@ -17,6 +17,9 @@ class LocalServerInteractor: NSObject {
     }()
     
     func execute(method: String, params: JSON, completion: ((String) -> ())) {
+        if !method.contains("ping") {
+            print("")
+        }
         execute(method: ClientsMethod(rawValue: method) ?? ClientsMethod.Unknown, params: params, completion: completion)
     }
     
@@ -27,6 +30,8 @@ class LocalServerInteractor: NSObject {
                 return ""
             case .ReceiveMessage:
                 return receiveMessage(params: params["params"])
+            case .ReceiveChatMessage:
+                return receiveChatMessage(params: params)
             case .Ping:
                 return "{\"message\":\"pong\"}"
             }
@@ -35,17 +40,36 @@ class LocalServerInteractor: NSObject {
         completion(text)
     }
     
+    func receiveChatMessage(params: JSON) -> String {
+        let request_uuid = params["answer_request_uuid"].stringValue
+        let method = params["params"]["method"].stringValue
+        switch ClientsMethod.Room(rawValue: method) ?? ClientsMethod.Room.Unknown {
+        case .GetMessages:
+            return getMessages(params: params)
+        case .ReceiveMessage:
+            return receiveRoomMessage(params: params)
+        case .Ping:
+            return ""
+        case .Unknown:
+            return ""
+        }
+        return ""
+    }
+    
     func receiveMessage(params: JSON) -> String {
         let request_uuid = params["answer_request_uuid"].stringValue
         SocketManager.shared.complete(withRequestUUID: request_uuid, params: params)
         return ""
-//        let method = params["method"].stringValue
-//        switch ClientsMethod.Socket(rawValue: method) ?? ClientsMethod.Socket.Unknown {
-//        case .ReceiveRooms:
-//            return receiveRooms(params: params)
-//        case .Unknown:
-//            return ""
-//        }
+    }
+    
+    func getMessages(params: JSON) -> String {
+        return ""
+    }
+    
+    func receiveRoomMessage(params: JSON) -> String {
+        let message = Message(withJSON: params["params"])
+        RoomsManager.shared.receiveMessage(message: message)
+        return ""
     }
     
     func receiveRooms(params: JSON) -> String {

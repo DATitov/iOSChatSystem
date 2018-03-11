@@ -47,6 +47,16 @@ class Room: Object, Mappable {
         unreadMessagesCount = json["unreadMessagesCount"].int ?? 0
     }
     
+    init(room: Room) {
+        super.init()
+        
+        id = room.id
+        name = room.name
+        unreadMessagesCount = room.unreadMessagesCount
+        user1ID = room.user1ID
+        user2ID = room.user2ID
+    }
+    
     func mapping(map: Map) {
         id <- map["id"]
         name <- map["name"]

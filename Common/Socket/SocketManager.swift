@@ -41,7 +41,6 @@ class SocketManager: NSObject {
     }
 
     func write(urlString: String, params: [String: Any], completion: ((JSON?) -> ())?) {
-        let requestUUID = UUID().uuidString
         var mutableParams = params
         let container = SocketRequestContainer()
         container.completion = completion
