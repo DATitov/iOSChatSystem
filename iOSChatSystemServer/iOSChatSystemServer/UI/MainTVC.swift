@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 import DTAlertViewContainer
+import Realm
+import RealmSwift
 
 class MainTVC: UITableViewController {
 
@@ -54,6 +56,19 @@ class MainTVC: UITableViewController {
             let alertView = InputServerManagerIPAlertView(ipAddress: ServerManagerInteractor.shared.serverManagerURLString.value)
             
             container.presentOverVC(self, alert: alertView, appearenceAnimation: .fromTop, completion: nil)
+        }else if indexPath.section == 0 && indexPath.row == 3 {
+            clearDatabase()
+        }
+    }
+    
+    @IBAction func clearAllAction() {
+        clearDatabase()
+    }
+    
+    func clearDatabase() {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.deleteAll()
         }
     }
     

@@ -41,6 +41,17 @@ class Message: Object {
         date = date(fromString: json["date"].stringValue)
     }
     
+    init(message: Message) {
+        super.init()
+        
+        id = message.id
+        text = message.text
+        roomID = message.roomID
+        senderID = message.senderID
+        senderID = message.senderID
+        date = message.date
+    }
+    
     override static func primaryKey() -> String? {
         return "id"
     }

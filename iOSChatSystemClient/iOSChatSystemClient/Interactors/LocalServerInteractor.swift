@@ -59,6 +59,11 @@ class LocalServerInteractor: NSObject {
     }
     
     func receiveMessages(params: JSON) -> String {
+        let messages = params["params"]["messages"].arrayValue
+        for rawMessage in messages {
+            let message = Message(withJSON: rawMessage)
+            RoomsManager.shared.receiveMessage(message: message)
+        }
         return ""
     }
     
@@ -69,6 +74,8 @@ class LocalServerInteractor: NSObject {
     }
     
     func getMessages(params: JSON) -> String {
+        print("getMessages")
+        
         let request_uuid = params["params"]["request_uuid"].stringValue
         let roomID = params["params"]["roomID"].stringValue
         let senderURLString = params["params"]["senderURLString"].stringValue
@@ -81,13 +88,16 @@ class LocalServerInteractor: NSObject {
             let jsonString = message.toJSONStr() + ((index == messages.count - 1) ? "]" : ",")
             messagesJSONSTring.append(jsonString)
         }
-        SocketManager.shared.write(urlString: senderURLString,
-                                   params: [
-                                    "method": ClientsMethod.Room.ReceiveMessages.rawValue,
-                                    "answer_request_uuid": request_uuid,
-                                    "messages": messagesJSONSTring
+        if messagesJSONSTring == "[" {
+            messagesJSONSTring = "[]"
+        }
+        ChatSocketManager.sharedCSM.write(urlString: senderURLString,
+                                          params: [
+                                            "method": ClientsMethod.Room.ReceiveMessages.rawValue,
+                                            "answer_request_uuid": request_uuid,
+                                            "messages": messagesJSONSTring
             ],
-                                   completion: nil)
+                                          completion: nil)
         
         return ""
     }

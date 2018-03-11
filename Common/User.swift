@@ -52,4 +52,11 @@ class User: Object, Mappable {
         name <- map["name"]
     }
     
+    func toJOSNStr() -> String {
+        var jsonStr = "{"
+        jsonStr.append("\"\(idKey)\":\"\(self.id)\",")
+        jsonStr.append("\"\(nameKey)\":\"\(self.name)\"")
+        return jsonStr + "}"
+    }
+    
 }

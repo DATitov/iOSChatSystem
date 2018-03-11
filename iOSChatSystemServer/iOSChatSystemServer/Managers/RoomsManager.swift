@@ -12,6 +12,35 @@ import RealmSwift
 
 class RoomsManager: NSObject {
 
+    func join(rooms: [Room]) {
+        let realm = try! Realm()
+        let storedRooms = realm.objects(Room.self)
+        
+        var roomsToJoin = [Room]()
+        for room in rooms {
+            var stored = false
+            for stRoom in storedRooms {
+                if stRoom.id == room.id {
+                    stored = true
+                    break
+                }
+            }
+            if !stored {
+                roomsToJoin.append(room)
+            }
+        }
+        
+        try! realm.write {
+            realm.add(roomsToJoin)
+        }
+    }
+    
+    func rooms() -> [Room] {
+        let realm = try! Realm()
+        
+        return Array(realm.objects(Room.self))
+    }
+    
     func rooms(forUserID userID: String) -> [Room] {
         let realm = try! Realm()
         

@@ -10,6 +10,7 @@
 import UIKit
 import RxSwift
 import QMChatViewController
+import DateToolsSwift
 
 class ChatVC: QMChatViewController {
     
@@ -45,12 +46,16 @@ class ChatVC: QMChatViewController {
                                senderDisplayName: String!,
                                date: Date!) {
         
+        finishSendingMessage()
         if let message = vm?.sendMessage(text: text) {
             chatDataSource.add(ChatManager.qbMessage(fromMessage: message))
         }
     }
     
     override func viewClass(forItem item: QBChatMessage!) -> AnyClass! {
+        if (item.text?.contains("Today"))! {
+            return QMChatNotificationCell.self
+        }
         return item.senderID == 2
             ? QMChatOutgoingCell.self
             : QMChatIncomingCell.self
@@ -63,7 +68,9 @@ class ChatVC: QMChatViewController {
     override func collectionView(_ collectionView: QMChatCollectionView!, dynamicSizeAt indexPath: IndexPath!, maxWidth: CGFloat) -> CGSize {
         let label = UILabel()
         label.text = chatDataSource.message(for: indexPath).text ?? ""
-        return label.sizeThatFits(CGSize(width: maxWidth, height: 10000))
+        let size = label.sizeThatFits(CGSize(width: maxWidth, height: 10000))
+        
+        return CGSize(width: size.width, height: size.height * 1.4)
     }
     
     override func attributedString(forItem messageItem: QBChatMessage!) -> NSAttributedString! {
@@ -71,11 +78,26 @@ class ChatVC: QMChatViewController {
     }
 
     override func topLabelAttributedString(forItem messageItem: QBChatMessage!) -> NSAttributedString! {
-        return NSAttributedString(string: messageItem.text ?? "")
+        
+        switch messageItem.senderID {
+        case 0:
+            return NSAttributedString(string: "" )
+        case 1:
+            return NSAttributedString(string: vm?.chatManager.otherUserName ?? "")
+        case 2:
+            return NSAttributedString(string: "Я")
+        default:
+            return NSAttributedString(string: "" )
+        }
     }
     
     override func bottomLabelAttributedString(forItem messageItem: QBChatMessage!) -> NSAttributedString! {
-        return NSAttributedString(string: messageItem.text ?? "")
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "dd hh:mm:ss +zzzz"
+        guard let date = messageItem.dateSent ?? messageItem.createdAt else {
+            return NSAttributedString(string: "")
+        }
+        return NSAttributedString(string: dateFormat.string(from: date))
     }
     
 }

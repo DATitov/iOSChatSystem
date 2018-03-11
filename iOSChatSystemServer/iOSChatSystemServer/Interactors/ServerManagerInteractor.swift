@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import SwiftyJSON
 
 class ServerManagerInteractor: NSObject {
     
@@ -32,6 +33,61 @@ class ServerManagerInteractor: NSObject {
     @objc func recconectIfNeeded() {
         if !self.serverConnected.value {
             self.connect(urlString: self.serverManagerURLString.value, comletion: {_ in })
+        }
+        
+        RemoteServerInteractor.shared.executeRequest(urlString: self.serverManagerURLString.value,
+                                                     params: ["method": ServerManagerMethod.GetAllServers.rawValue]) { (data, response, error) in
+                                                        guard let data = data,
+                                                        let jsonString = String(data: data, encoding: .utf8) else {
+                                                            return
+                                                        }
+                                                        
+                                                        let json = JSON(parseJSON: jsonString)
+                                                        let servers = json["servers"].arrayValue
+                                                            .map({ Server(withJSON: $0).urlString })
+                                                            .filter({ $0 != LocalServer.shared.serverURLString.value })
+                                                        
+                                                        self.shareData(serversURLS: servers)
+        }
+    }
+    
+    func shareData(serversURLS: [String]) {
+        let jsonArray: (([String]) -> (String)) = { array in
+            var jsonString = "["
+            for (index, str) in array.enumerated() {
+                jsonString.append(str)
+                jsonString.append(index == array.count - 1 ? "]" : ",")
+            }
+            if jsonString == "[" {
+                jsonString = "[]"
+            }
+            return jsonString
+        }
+        let users = UsersManager().users().map({ (user) -> String in
+            let string = user.toJOSNStr()
+            return string
+        })
+        
+        let rooms = RoomsManager().rooms().map({ (room) -> String in
+            let string = room.toJOSNStr()
+            return string
+        })
+        
+        let usersJSONString = jsonArray(users)
+        let roomsJSONString = jsonArray(rooms)
+        
+        for serverURLString in serversURLS {
+            RemoteServerInteractor.shared.executeRequest(urlString: serverURLString,
+                                                         params: ["method": ServerMethod.ReceiveData.rawValue,
+                                                                  "users": users,
+                                                                  "rooms": rooms],
+                                                         completion: { (data, response, error) in
+                                                            guard let data = data,
+                                                                let jsonString = String(data: data, encoding: .utf8) else {
+                                                                    return
+                                                            }
+                                                            print("")
+            })
         }
     }
     

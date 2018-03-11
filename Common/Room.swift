@@ -69,4 +69,15 @@ class Room: Object, Mappable {
 //        return "id"
 //    }
     
+    
+    func toJOSNStr() -> String {
+        var jsonStr = "{"
+        jsonStr.append("\"id\":\"\(id)\",")
+        jsonStr.append("\"name\":\"\(name)\",")
+        jsonStr.append("\"user1ID\":\"\(user1ID)\",")
+        jsonStr.append("\"user2ID\":\"\(user2ID)\",")
+        jsonStr.append("\"unreadMessagesCount\":\"\(unreadMessagesCount)\"")
+        return jsonStr + "}"
+    }
+    
 }

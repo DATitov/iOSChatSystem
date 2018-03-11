@@ -37,10 +37,32 @@ class LocalServerInteractor: NSObject {
                 return ""
             case .CreateRoom:
                 return createRoom(params: params)
+            case .ReceiveData:
+                return receiveData(params: params)
             }
         }()
         
         completion(text)
+    }
+    
+    func receiveData(params: JSON) -> String {
+        let users = params["users"].arrayValue
+            .map({ (json) -> User in
+                let nj = JSON(parseJSON: json.rawString()!)
+                let user = User(json: nj)
+                return user
+            })
+        let rooms = params["rooms"].arrayValue
+            .map({ (json) -> Room in
+                let nj = JSON(parseJSON: json.rawString()!)
+                let room = Room(withJSON: nj)
+                return room
+            })
+        
+        UsersManager().join(users: users)
+        RoomsManager().join(rooms: rooms)
+        
+        return "{\"message\":\"updated\"}"
     }
     
     func createRoom(params: JSON) -> String {

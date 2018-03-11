@@ -37,6 +37,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            ServerManagerInteractor.shared.requestServerURL(comletion: { (urlString) in
+                UsersManager.shared.getUser()
+                UsersManager.shared.loadUsers()
+            })
+        }
         
         return true
     }

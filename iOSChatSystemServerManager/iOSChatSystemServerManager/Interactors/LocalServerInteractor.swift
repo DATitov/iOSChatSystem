@@ -33,10 +33,24 @@ class LocalServerInteractor: NSObject {
                 return "Pong"
             case .Unknown: 
                 return ""
+            case .GetAllServers:
+                return getAllServers(params: params)
             }
         }()
         
         completion(text)
+    }
+    
+    func getAllServers(params: JSON) -> String {
+        let jsons = ServersManager.shared.servers.value.map({ $0.toJOSNStr() })
+        var jsonString = "["
+        for (index, jsonStr) in jsons.enumerated() {
+            jsonString.append(jsonStr + ((index == jsons.count - 1) ? "]" : ","))
+        }
+        if jsonString == "[" {
+            jsonString = "[]"
+        }
+        return "{\"servers\": \(jsonString)}"
     }
     
     func connectClient(params: JSON) -> String {

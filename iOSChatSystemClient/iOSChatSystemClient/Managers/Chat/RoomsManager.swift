@@ -93,6 +93,20 @@ class RoomsManager: NSObject {
     }
     
     func receiveMessage(message: Message) {
+        let messageToStore = Message(message: message)
+        let realm = try! Realm()
+        let existingMessages = realm.objects(Message.self).filter({ $0.id == messageToStore.id })
+            try! realm.write {
+                if existingMessages.count < 1 {
+                    realm.add(messageToStore)
+                }else{
+                    for m in existingMessages {
+                        
+                    }
+                }
+                
+        }
+        
         guard let manager = roomsManagers.value.filter({ $0.room.id == message.roomID }).first else {
             return
         }

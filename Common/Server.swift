@@ -32,4 +32,12 @@ class Server: NSObject {
         }
     }
     
+    func toJOSNStr() -> String {
+        var jsonStr = "{"
+        jsonStr.append("\"\(Keys.Name.rawValue)\":\"\(name)\",")
+        jsonStr.append("\"\(Keys.URLString.rawValue)\":\"\(urlString)\"}")
+        
+        return jsonStr
+    }
+    
 }

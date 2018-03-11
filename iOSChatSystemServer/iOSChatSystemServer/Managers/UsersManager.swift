@@ -11,6 +11,29 @@ import Realm
 import RealmSwift
 
 class UsersManager: NSObject {
+    
+    func join(users: [User]) {
+        let realm = try! Realm()
+        let storedUsers = realm.objects(User.self)
+        
+        var usersToJoin = [User]()
+        for user in users {
+            var stored = false
+            for stUser in storedUsers {
+                if stUser.id == user.id {
+                    stored = true
+                    break
+                }
+            }
+            if !stored {
+                usersToJoin.append(user)
+            }
+        }
+        
+        try! realm.write {
+            realm.add(usersToJoin)
+        }
+    }
 
     func users() -> [User] {
         let realm = try! Realm()

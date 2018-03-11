@@ -92,12 +92,13 @@ class ChatManager: NSObject {
     static func qbMessage(fromMessage message: Message) -> QBChatMessage {
         let qbMessage = QBChatMessage()
         
+        qbMessage.id = message.id
         qbMessage.text = message.text
-        qbMessage.createdAt = message.date
+//        qbMessage.createdAt = message.date
         qbMessage.dateSent = message.date
         qbMessage.senderID = message.senderID == LocalServer.shared.serverURLString.value
-        ? 2
-        : 1
+            ? 2
+            : 1
         
         return qbMessage
     }

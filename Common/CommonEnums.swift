@@ -11,6 +11,7 @@ import Foundation
 enum ServerManagerMethod: String {
     case ConnectClient = "connect_client"
     case ConnectToServer = "connect_to_server"
+    case GetAllServers = "get_all_servers"
     case ConnectServer = "connect_server"
     case Ping = "ping"
     case Unknown = "unknown"
@@ -23,6 +24,7 @@ enum ServerMethod: String {
     case Ping = "ping"
     case GetUser = "get_user"
     case CreateRoom = "create_room"
+    case ReceiveData = "receive_data"
     case Unknown = "unknown"
     
     enum Socket: String {
