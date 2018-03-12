@@ -8,7 +8,7 @@ target 'iOSChatSystemServerManager' do
   # Pods for iOSChatSystemServerManager
 
 
-pod "GCDWebServer", "~> 3.0"
+pod "GCDWebServer", "~> 3.4.1"
 pod "RealmSwift"
 pod 'SwiftyJSON'
 pod 'RxSwift',    '~> 4.0'

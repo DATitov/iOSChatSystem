@@ -55,11 +55,16 @@ class LocalServer: NSObject {
             let sender = request.headers[RemoteServerInteractor.shared.senderURLHeaderKey]
             let params = self.params(data: dataRequest.data) ?? [String: Any]()
             let method = params["method"] as? String ?? ""
-            let json = JSON(data: dataRequest.data)
-            LocalServerInteractor.shared.execute(method: method, params: json, completion: { text in
-                let response = GCDWebServerDataResponse(text: text)
-                completion(response)
-            })
+            do {
+                let json = try JSON(data: dataRequest.data)
+                LocalServerInteractor.shared.execute(method: method, params: json, completion: { text in
+                    let response = GCDWebServerDataResponse(text: text)
+                    completion(response)
+                })
+            }catch let error {
+                print(error)
+                return completion(GCDWebServerErrorResponse(statusCode: 404))
+            }
         }
     }
     
